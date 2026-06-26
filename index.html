@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal Kumar | Android & Software Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables based on the design images --- */
+        :root {
+            --bg-main: #0a0a0a;
+            /* Deep black background */
+            --bg-secondary: #141414;
+            /* Slightly lighter for sections */
+            --card-bg: #1c1c1c;
+            /* Dark gray for cards */
+            --card-hover: #252525;
+            --accent-purple: #8a4fff;
+            /* Vibrant purple from designs */
+            --accent-green: #d9e577;
+            /* The lime green/yellow from designs */
+            --accent-blue: #5ce1e6;
+            /* A complementary blue */
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            /* Muted gray text */
+            --border-color: #2a2a2a;
+        }
+
+        /* --- Global Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        /* --- Reusable Utilities --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gradient-text-purple {
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* --- Floating Nav Bar (Pill design) --- */
+        .nav-container {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(28, 28, 28, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-purple);
+        }
+
+        .nav-socials {
+            display: flex;
+            gap: 15px;
+            border-left: 1px solid var(--border-color);
+            padding-left: 25px;
+        }
+
+        .nav-socials a {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .nav-socials a:hover {
+            color: var(--accent-green);
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+            /* Space for nav */
+        }
+
+        .hero-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-greeting {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .hero-name {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-bio {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-description-highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-blue));
+            color: white;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(138, 79, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(138, 79, 255, 0.5);
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Organic blob shape for profile image */
+        .profile-blob {
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
+            /* Fancy border radius generator blob */
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            overflow: hidden;
+            position: relative;
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        .profile-blob img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes morph {
+            0% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+
+            50% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+        }
+
+        /* --- Education Section --- */
+        #education {
+            background-color: var(--bg-secondary);
+        }
+
+        .edu-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .edu-icon {
+            font-size: 2.5rem;
+            color: var(--accent-purple);
+            background: rgba(138, 79, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .edu-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .edu-details h4 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .edu-meta {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .cpi-badge {
+            background: var(--accent-green);
+            color: black;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* --- Skills Section (Cards like design) --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-card {
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 180px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Green accent cards */
+        .skill-card.accent-green {
+            background-color: var(--accent-green);
+            color: black;
+        }
+
+        /* Blue/Purple accent cards */
+        .skill-card.accent-purple {
+            background-color: rgba(138, 79, 255, 0.2);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-purple);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: auto;
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* --- Projects Section (Design Replica) --- */
+        #projects {
+            background: var(--bg-secondary);
+        }
+
+        .project-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 30px;
+            padding: 50px;
+            display: flex;
+            gap: 60px;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-purple);
+            background: var(--card-hover);
+        }
+
+        .project-left {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .project-role {
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .project-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .project-date::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+        }
+
+        .project-right {
+            flex: 2;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-badge {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(217, 229, 119, 0.3);
+        }
+
+        /* Icon for external link in projects */
+        .project-link-icon {
+            display: inline-block;
+            margin-left: 10px;
+            opacity: 0;
+            transition: 0.3s;
+            color: var(--accent-blue);
+        }
+
+        .project-card:hover .project-link-icon {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        /* --- Coding Profiles & Achievements --- */
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+
+        .profile-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+        }
+
+        .profile-icon {
+            font-size: 3rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .profile-stat {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .profile-handle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .achievement-list {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 30px;
+        }
+
+        .achievement-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .achievement-item:last-child {
+            border-bottom: none;
+        }
+
+        .ach-title i {
+            color: var(--accent-green);
+            margin-right: 15px;
+        }
+
+        .ach-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* --- Footer / Contact --- */
+        .footer-nav {
+            background: var(--card-bg);
+            padding: 20px 40px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            margin-top: 50px;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-socials a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        .footer-socials a:hover {
+            background: var(--accent-purple);
+            color: white;
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 968px) {
+            .hero-wrapper {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 50px;
+            }
+
+            .hero-content {
+                margin: 0 auto;
+            }
+
+            .hero-image-container {
+                justify-content: center;
+            }
+
+            .profile-blob {
+                width: 350px;
+                height: 350px;
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+
+            .project-card {
+                flex-direction: column;
+                gap: 30px;
+                padding: 30px;
+            }
+
+            .project-left {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                width: 90%;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Hide links on mobile for simplicity */
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav-container">
+        <a href="#hero" class="nav-logo gradient-text-purple">Vishal.dev</a>
+        <ul class="nav-links">
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#profiles">Profiles</a></li>
+        </ul>
+        <div class="nav-socials">
+            <a href="https://github.com/astronix1" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/vkvishal1/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:vishalkumar20234234@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="container hero-wrapper">
+            <div class="hero-content">
+                <p class="hero-greeting">Hello, I'm</p>
+                <h1 class="hero-name gradient-text-purple">Vishal Kumar</h1>
+                <p class="hero-bio">
+                    A passionate <span class="hero-description-highlight">Electronics and Communication Engineer</span>
+                    and software developer, specializing in building modern Android applications with <span
+                        class="hero-description-highlight">Jetpack Compose & Kotlin</span>.
+                </p>
+                <a href="#" class="btn-primary">Download CV <i class="fas fa-download"
+                        style="margin-left: 10px;"></i></a>
+            </div>
+            <div class="hero-image-container">
+                <div class="profile-blob">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&h=500"
+                        alt="Vishal Kumar">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">ACADEMIC BACKGROUND</span>
+                <h2 class="section-title">Education</h2>
+            </div>
+            <div class="edu-card">
+                <div class="edu-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="edu-details">
+                    <h3>Motilal Nehru National Institute of Technology</h3>
+                    <h4>Bachelor of Technology in Electronics and Communication Engineering</h4>
+                    <span class="edu-meta"><i class="far fa-calendar-alt"></i> 2023 - 2027 | Allahabad, Prayagraj</span>
+                    <p>Currently in 7th Semester. <span class="cpi-badge">CPI: 7.53</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">MY TOOLKIT</span>
+                <h2 class="section-title">Technical Skills</h2>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card accent-purple">
+                    <i class="fab fa-android skill-icon"></i>
+                    <span class="skill-name">Android Dev</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <i class="fas fa-mobile-alt skill-icon"></i>
+                    <span class="skill-name">Jetpack Compose</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"
+                        alt="Kotlin" class="skill-icon"
+                        style="width: 40px; height: 40px; filter: brightness(0) invert(1);">
+                    <span class="skill-name">Kotlin / KMP</span>
+                </div>
+
+                <div class="skill-card accent-purple">
+                    <i class="fas fa-code skill-icon"></i>
+                    <span class="skill-name">C++</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <i class="fas fa-fire skill-icon"></i>
+                    <span class="skill-name">Firebase SDK</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <i class="fas fa-database skill-icon"></i>
+                    <span class="skill-name">SQL / DBMS</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <i class="fas fa-laptop-code skill-icon"></i>
+                    <span class="skill-name">DSA & OOP</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <i class="fab fa-linux skill-icon"></i>
+                    <span class="skill-name">Linux & OS</span>
+                </div>
+                <div class="skill-card accent-purple">
+                    <i class="fas fa-leaf skill-icon"></i>
+                    <span class="skill-name">Spring Boot</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">PRACTICAL EXPERIENCE</span>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+
+            <div class="project-container">
+
+                <a href="https://github.com/astronix1/Shopzi" target="_blank" class="project-card">
+                    <div class="project-left">
+                        <h3 class="project-title">Shopzi <i class="fas fa-external-link-alt project-link-icon"></i></h3>
+                        <span class="project-role">Full-stack App</span>
+                        <span class="project-date">April 2025</span>
+                    </div>
+                    <div class="project-right">
+                        <p class="project-description">
+                            Built a modern shopping app with fluid user experience. Developed a secure user auth system,
+                            integrated payment gateway using Razorpay SDK, and implemented order tracking and admin
+                            interface for sellers.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Jetpack Compose</span>
+                            <span class="tech-badge">Kotlin DSL</span>
+                            <span class="tech-badge">Firebase Firestore</span>
+                            <span class="tech-badge">MVVM</span>
+                            <span class="tech-badge">Cloudinary</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://github.com/astronix1/NestBank" target="_blank" class="project-card">
+                    <div class="project-left">
+                        <h3 class="project-title">NestBank UI <i class="fas fa-external-link-alt project-link-icon"></i>
+                        </h3>
+                        <span class="project-role">UI/UX Design & Dev</span>
+                        <span class="project-date">June 2025</span>
+                    </div>
+                    <div class="project-right">
+                        <p class="project-description">
+                            Designed and built a modern banking app interface inspired by real-world fintech apps.
+                            Developed a fully responsive and interactive UI with intuitive layout and smooth user
+                            experience, strengthening Compose proficiency.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">Jetpack Compose</span>
+                            <span class="tech-badge">Kotlin</span>
+                            <span class="tech-badge">UI/UX</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="profiles">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">PROBLEM SOLVING</span>
+                <h2 class="section-title">Profiles & Achievements</h2>
+            </div>
+
+            <div class="profiles-grid">
+                <a href="https://leetcode.com/u/astronix1/" target="_blank" class="profile-card">
+                    <i class="fas fa-code profile-icon"></i>
+                    <h3>LeetCode</h3>
+                    <span class="profile-stat gradient-text-purple">1914</span>
+                    <span class="profile-handle">@astronix1 | Rank: Knight</span>
+                </a>
+                <a href="https://codeforces.com/profile/vkvishal" target="_blank" class="profile-card">
+                    <i class="fas fa-terminal profile-icon"></i>
+                    <h3>Codeforces</h3>
+                    <span class="profile-stat gradient-text-purple">1372</span>
+                    <span class="profile-handle">@vkvishal | Rank: Pupil</span>
+                </a>
+                <a href="https://github.com/astronix1" target="_blank" class="profile-card">
+                    <i class="fab fa-github profile-icon"></i>
+                    <h3>GitHub</h3>
+                    <span class="profile-stat gradient-text-purple">Dev</span>
+                    <span class="profile-handle">@astronix1 | Active Contributor</span>
+                </a>
+            </div>
+
+            <div class="achievement-list">
+                <h3 style="margin-bottom: 25px; font-size: 1.5rem;">Contest Highlights</h3>
+                <div class="achievement-item">
+                    <div class="ach-title"><i class="fas fa-trophy"></i> Codeforces Round 1020: Secured Global Rank 2836
+                    </div>
+                    <div class="ach-date">April 2025</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="ach-title"><i class="fas fa-trophy"></i> Codeforces Round 1032: Secured Global Rank 1211
+                    </div>
+                    <div class="ach-date">June 2025</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="ach-title"><i class="fas fa-medal"></i> LeetCode Weekly Contest 456: Secured Global Rank
+                        1314 (top ~4.5%)</div>
+                    <div class="ach-date">June 2025</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" style="padding-top: 0;">
+        <div class="container">
+            <div class="footer-nav">
+                <span class="footer-text">© 2025 Vishal Kumar. All rights reserved.</span>
+                <div class="footer-socials">
+                    <a href="https://github.com/astronix1" target="_blank" title="GitHub"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/vkvishal1/" target="_blank" title="LinkedIn"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="mailto:vishalkumar20234234@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
